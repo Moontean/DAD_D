@@ -5,6 +5,12 @@ services:
     build: ./gateway
     ports:
       - "8000:8000"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request,sys; urllib.request.urlopen('http://localhost:8000/openapi.json'); sys.exit(0)\" || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
     environment:
       - AUTH_SERVICE_URL=http://auth_service:8001
       - PRODUCT_SERVICE_URL=http://product_service:8002
@@ -12,42 +18,115 @@ services:
       - ORDER_SERVICE_URL=http://order_service:8004
       - REVIEW_SERVICE_URL=http://review_service:8007
     depends_on:
-      - auth_service
-      - product_service
-      - cart_service
-      - order_service
-      - review_service
+      auth_service:
+        condition: service_healthy
+      product_service:
+        condition: service_healthy
+      cart_service:
+        condition: service_healthy
+      order_service:
+        condition: service_healthy
+      review_service:
+        condition: service_healthy
+    networks:
+      - microshop
 
   auth_service:
     build: ./auth_service
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request,sys; urllib.request.urlopen('http://localhost:8001/openapi.json'); sys.exit(0)\" || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+    networks:
+      - microshop
 
   product_service:
     build: ./product_service
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request,sys; urllib.request.urlopen('http://localhost:8002/openapi.json'); sys.exit(0)\" || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+    networks:
+      - microshop
 
   cart_service:
     build: ./cart_service
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request,sys; urllib.request.urlopen('http://localhost:8003/openapi.json'); sys.exit(0)\" || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+    networks:
+      - microshop
 
   order_service:
     build: ./order_service
     environment:
       - PAYMENT_SERVICE_URL=http://payment_service:8005
       - NOTIFICATION_SERVICE_URL=http://notification_service:8006
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request,sys; urllib.request.urlopen('http://localhost:8004/openapi.json'); sys.exit(0)\" || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
     depends_on:
-      - payment_service
-      - notification_service
+      payment_service:
+        condition: service_healthy
+      notification_service:
+        condition: service_healthy
+    networks:
+      - microshop
 
   payment_service:
     build: ./payment_service
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request,sys; urllib.request.urlopen('http://localhost:8005/openapi.json'); sys.exit(0)\" || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+    networks:
+      - microshop
 
   notification_service:
     build: ./notification_service
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request,sys; urllib.request.urlopen('http://localhost:8006/openapi.json'); sys.exit(0)\" || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+    networks:
+      - microshop
     
   review_service:
     build: ./review_service
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request,sys; urllib.request.urlopen('http://localhost:8007/openapi.json'); sys.exit(0)\" || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+    networks:
+      - microshop
 
   frontend:
     build: ./frontend
     ports:
       - "3000:3000"
+    restart: unless-stopped
     depends_on:
-      - gateway
+      gateway:
+        condition: service_healthy
+    networks:
+      - microshop
+
+networks:
+  microshop:
+    driver: bridge
