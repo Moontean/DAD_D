@@ -27,6 +27,8 @@ jobs:
         shell: bash
         run: |
           echo "REPO_LC=${GITHUB_REPOSITORY,,}" >> $GITHUB_ENV
+      - name: Show computed lowercase repo
+        run: echo "Using repo: ghcr.io/${{ env.REPO_LC }}"
 
       - name: Log in to GHCR
         uses: docker/login-action@v3
