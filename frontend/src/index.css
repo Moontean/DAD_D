@@ -1,0 +1,71 @@
+:root {
+  --primary-color: #2a7b6f;
+  --primary-hover: #23655b;
+  --secondary-color: #6c757d;
+  --background-color: #ffffff;
+  --surface-color: #ffffff;
+  --text-color: #1f2937;
+  --text-muted: #6b7280;
+  --border-color: #e5e7eb;
+  --success-color: #22c55e;
+  --error-color: #ef4444;
+  --border-radius: 12px;
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+  padding: 10px 20px;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+}
+
+.btn-secondary {
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+/* Tabs */
+.tabs { display: flex; gap: 2rem; align-items: center; }
+.tab-link { color: var(--text-color); letter-spacing: 0.02em; text-transform: uppercase; font-size: 0.85rem; }
+.tab-link:hover { color: var(--primary-color); }
+
+/* Hero */
+.hero { width: 100%; border-radius: var(--border-radius); overflow: hidden; box-shadow: var(--shadow); }
+.hero img { width: 100%; display: block; }
