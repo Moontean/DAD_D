@@ -37,8 +37,8 @@ jobs:
           context: ./auth_service
           push: true
           tags: |
-            ghcr.io/${{ toLower(github.repository_owner) }}/auth_service:latest
-            ghcr.io/${{ toLower(github.repository_owner) }}/auth_service:sha-${{ github.sha }}
+            ghcr.io/${{ github.repository }}/auth_service:latest
+            ghcr.io/${{ github.repository }}/auth_service:sha-${{ github.sha }}
 
       - name: Build and push product_service
         if: ${{ hashFiles('product_service/Dockerfile') != '' }}
@@ -47,8 +47,8 @@ jobs:
           context: ./product_service
           push: true
           tags: |
-            ghcr.io/${{ toLower(github.repository_owner) }}/product_service:latest
-            ghcr.io/${{ toLower(github.repository_owner) }}/product_service:sha-${{ github.sha }}
+            ghcr.io/${{ github.repository }}/product_service:latest
+            ghcr.io/${{ github.repository }}/product_service:sha-${{ github.sha }}
 
       - name: Build and push cart_service
         if: ${{ hashFiles('cart_service/Dockerfile') != '' }}
@@ -57,8 +57,8 @@ jobs:
           context: ./cart_service
           push: true
           tags: |
-            ghcr.io/${{ toLower(github.repository_owner) }}/cart_service:latest
-            ghcr.io/${{ toLower(github.repository_owner) }}/cart_service:sha-${{ github.sha }}
+            ghcr.io/${{ github.repository }}/cart_service:latest
+            ghcr.io/${{ github.repository }}/cart_service:sha-${{ github.sha }}
 
       - name: Build and push order_service
         if: ${{ hashFiles('order_service/Dockerfile') != '' }}
@@ -67,8 +67,8 @@ jobs:
           context: ./order_service
           push: true
           tags: |
-            ghcr.io/${{ toLower(github.repository_owner) }}/order_service:latest
-            ghcr.io/${{ toLower(github.repository_owner) }}/order_service:sha-${{ github.sha }}
+            ghcr.io/${{ github.repository }}/order_service:latest
+            ghcr.io/${{ github.repository }}/order_service:sha-${{ github.sha }}
 
       - name: Build and push payment_service
         if: ${{ hashFiles('payment_service/Dockerfile') != '' }}
@@ -77,8 +77,8 @@ jobs:
           context: ./payment_service
           push: true
           tags: |
-            ghcr.io/${{ toLower(github.repository_owner) }}/payment_service:latest
-            ghcr.io/${{ toLower(github.repository_owner) }}/payment_service:sha-${{ github.sha }}
+            ghcr.io/${{ github.repository }}/payment_service:latest
+            ghcr.io/${{ github.repository }}/payment_service:sha-${{ github.sha }}
 
       - name: Build and push notification_service
         if: ${{ hashFiles('notification_service/Dockerfile') != '' }}
@@ -87,8 +87,8 @@ jobs:
           context: ./notification_service
           push: true
           tags: |
-            ghcr.io/${{ toLower(github.repository_owner) }}/notification_service:latest
-            ghcr.io/${{ toLower(github.repository_owner) }}/notification_service:sha-${{ github.sha }}
+            ghcr.io/${{ github.repository }}/notification_service:latest
+            ghcr.io/${{ github.repository }}/notification_service:sha-${{ github.sha }}
 
       - name: Build and push review_service
         if: ${{ hashFiles('review_service/Dockerfile') != '' }}
@@ -97,8 +97,8 @@ jobs:
           context: ./review_service
           push: true
           tags: |
-            ghcr.io/${{ toLower(github.repository_owner) }}/review_service:latest
-            ghcr.io/${{ toLower(github.repository_owner) }}/review_service:sha-${{ github.sha }}
+            ghcr.io/${{ github.repository }}/review_service:latest
+            ghcr.io/${{ github.repository }}/review_service:sha-${{ github.sha }}
 
       - name: Build and push gateway
         if: ${{ hashFiles('gateway/Dockerfile') != '' }}
@@ -107,5 +107,5 @@ jobs:
           context: ./gateway
           push: true
           tags: |
-            ghcr.io/${{ toLower(github.repository_owner) }}/gateway:latest
-            ghcr.io/${{ toLower(github.repository_owner) }}/gateway:sha-${{ github.sha }}
+            ghcr.io/${{ github.repository }}/gateway:latest
+            ghcr.io/${{ github.repository }}/gateway:sha-${{ github.sha }}
