@@ -7,7 +7,7 @@ from order_service.main import app, orders_db
 def mock_httpx(monkeypatch):
     # Mock httpx.AsyncClient used by the service to avoid real network calls
     import httpx
-
+    #test branch
     class FakeResponse:
         def __init__(self, status_code=200, text="OK"):
             self.status_code = status_code
