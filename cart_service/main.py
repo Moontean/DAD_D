@@ -6,7 +6,7 @@ app = FastAPI(title="Cart Service")
 
 # In-memory storage: {user_id: [items]}
 carts: Dict[int, List[dict]] = {}
-
+# Model for cart item
 class CartItem(BaseModel):
     product_id: int
     quantity: int

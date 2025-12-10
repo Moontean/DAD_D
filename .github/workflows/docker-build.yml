@@ -1,12 +1,17 @@
 name: Build Docker Images
 
 on:
+  # Run builds only after tests workflow completes
+  workflow_run:
+    workflows: ["Backend Tests"]
+    types: [completed]
+  # Manual trigger remains available
   workflow_dispatch:
-  push:
-    branches: [ main ]
 
 jobs:
   build:
+    # Proceed only if tests succeeded, or when manually dispatched
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -26,6 +31,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push auth_service
+        if: ${{ hashFiles('auth_service/Dockerfile') != '' }}
         uses: docker/build-push-action@v6
         with:
           context: ./auth_service
@@ -35,6 +41,7 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/auth_service:sha-${{ github.sha }}
 
       - name: Build and push product_service
+        if: ${{ hashFiles('product_service/Dockerfile') != '' }}
         uses: docker/build-push-action@v6
         with:
           context: ./product_service
@@ -44,6 +51,7 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/product_service:sha-${{ github.sha }}
 
       - name: Build and push cart_service
+        if: ${{ hashFiles('cart_service/Dockerfile') != '' }}
         uses: docker/build-push-action@v6
         with:
           context: ./cart_service
@@ -53,6 +61,7 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/cart_service:sha-${{ github.sha }}
 
       - name: Build and push order_service
+        if: ${{ hashFiles('order_service/Dockerfile') != '' }}
         uses: docker/build-push-action@v6
         with:
           context: ./order_service
@@ -62,6 +71,7 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/order_service:sha-${{ github.sha }}
 
       - name: Build and push payment_service
+        if: ${{ hashFiles('payment_service/Dockerfile') != '' }}
         uses: docker/build-push-action@v6
         with:
           context: ./payment_service
@@ -71,6 +81,7 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/payment_service:sha-${{ github.sha }}
 
       - name: Build and push notification_service
+        if: ${{ hashFiles('notification_service/Dockerfile') != '' }}
         uses: docker/build-push-action@v6
         with:
           context: ./notification_service
@@ -80,6 +91,7 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/notification_service:sha-${{ github.sha }}
 
       - name: Build and push review_service
+        if: ${{ hashFiles('review_service/Dockerfile') != '' }}
         uses: docker/build-push-action@v6
         with:
           context: ./review_service
@@ -89,6 +101,7 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/review_service:sha-${{ github.sha }}
 
       - name: Build and push gateway
+        if: ${{ hashFiles('gateway/Dockerfile') != '' }}
         uses: docker/build-push-action@v6
         with:
           context: ./gateway
