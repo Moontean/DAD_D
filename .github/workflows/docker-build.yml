@@ -27,8 +27,10 @@ jobs:
         shell: bash
         run: |
           echo "REPO_LC=${GITHUB_REPOSITORY,,}" >> $GITHUB_ENV
+          echo "OWNER_LC=${GITHUB_REPOSITORY_OWNER,,}" >> $GITHUB_ENV
       - name: Show computed lowercase repo
-        run: echo "Using repo: ghcr.io/${{ env.REPO_LC }}"
+        shell: bash
+        run: echo "Using repo: ghcr.io/$REPO_LC and owner: ghcr.io/$OWNER_LC"
 
       - name: Log in to GHCR
         uses: docker/login-action@v3
@@ -44,8 +46,8 @@ jobs:
           context: ./auth_service
           push: true
           tags: |
-            ghcr.io/${{ env.REPO_LC }}/auth_service:latest
-            ghcr.io/${{ env.REPO_LC }}/auth_service:sha-${{ github.sha }}
+            ghcr.io/${{ env.OWNER_LC }}/auth_service:latest
+            ghcr.io/${{ env.OWNER_LC }}/auth_service:sha-${{ github.sha }}
 
       - name: Build and push product_service
         if: ${{ hashFiles('product_service/Dockerfile') != '' }}
@@ -54,8 +56,8 @@ jobs:
           context: ./product_service
           push: true
           tags: |
-            ghcr.io/${{ env.REPO_LC }}/product_service:latest
-            ghcr.io/${{ env.REPO_LC }}/product_service:sha-${{ github.sha }}
+            ghcr.io/${{ env.OWNER_LC }}/product_service:latest
+            ghcr.io/${{ env.OWNER_LC }}/product_service:sha-${{ github.sha }}
 
       - name: Build and push cart_service
         if: ${{ hashFiles('cart_service/Dockerfile') != '' }}
@@ -64,8 +66,8 @@ jobs:
           context: ./cart_service
           push: true
           tags: |
-            ghcr.io/${{ env.REPO_LC }}/cart_service:latest
-            ghcr.io/${{ env.REPO_LC }}/cart_service:sha-${{ github.sha }}
+            ghcr.io/${{ env.OWNER_LC }}/cart_service:latest
+            ghcr.io/${{ env.OWNER_LC }}/cart_service:sha-${{ github.sha }}
 
       - name: Build and push order_service
         if: ${{ hashFiles('order_service/Dockerfile') != '' }}
@@ -74,8 +76,8 @@ jobs:
           context: ./order_service
           push: true
           tags: |
-            ghcr.io/${{ env.REPO_LC }}/order_service:latest
-            ghcr.io/${{ env.REPO_LC }}/order_service:sha-${{ github.sha }}
+            ghcr.io/${{ env.OWNER_LC }}/order_service:latest
+            ghcr.io/${{ env.OWNER_LC }}/order_service:sha-${{ github.sha }}
 
       - name: Build and push payment_service
         if: ${{ hashFiles('payment_service/Dockerfile') != '' }}
@@ -84,8 +86,8 @@ jobs:
           context: ./payment_service
           push: true
           tags: |
-            ghcr.io/${{ env.REPO_LC }}/payment_service:latest
-            ghcr.io/${{ env.REPO_LC }}/payment_service:sha-${{ github.sha }}
+            ghcr.io/${{ env.OWNER_LC }}/payment_service:latest
+            ghcr.io/${{ env.OWNER_LC }}/payment_service:sha-${{ github.sha }}
 
       - name: Build and push notification_service
         if: ${{ hashFiles('notification_service/Dockerfile') != '' }}
@@ -94,8 +96,8 @@ jobs:
           context: ./notification_service
           push: true
           tags: |
-            ghcr.io/${{ env.REPO_LC }}/notification_service:latest
-            ghcr.io/${{ env.REPO_LC }}/notification_service:sha-${{ github.sha }}
+            ghcr.io/${{ env.OWNER_LC }}/notification_service:latest
+            ghcr.io/${{ env.OWNER_LC }}/notification_service:sha-${{ github.sha }}
 
       - name: Build and push review_service
         if: ${{ hashFiles('review_service/Dockerfile') != '' }}
@@ -104,8 +106,8 @@ jobs:
           context: ./review_service
           push: true
           tags: |
-            ghcr.io/${{ env.REPO_LC }}/review_service:latest
-            ghcr.io/${{ env.REPO_LC }}/review_service:sha-${{ github.sha }}
+            ghcr.io/${{ env.OWNER_LC }}/review_service:latest
+            ghcr.io/${{ env.OWNER_LC }}/review_service:sha-${{ github.sha }}
 
       - name: Build and push gateway
         if: ${{ hashFiles('gateway/Dockerfile') != '' }}
@@ -114,5 +116,5 @@ jobs:
           context: ./gateway
           push: true
           tags: |
-            ghcr.io/${{ env.REPO_LC }}/gateway:latest
-            ghcr.io/${{ env.REPO_LC }}/gateway:sha-${{ github.sha }}
+            ghcr.io/${{ env.OWNER_LC }}/gateway:latest
+            ghcr.io/${{ env.OWNER_LC }}/gateway:sha-${{ github.sha }}

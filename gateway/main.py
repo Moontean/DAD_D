@@ -47,13 +47,13 @@ async def proxy_request(url: str, method: str, request: Request):
             raise HTTPException(status_code=500, detail=f"An unexpected error occurred: {str(e)}")
 
 # --- Auth Routes ---
-@app.api_route("/auth/{path:path}", methods=["POST"])
+@app.api_route("/auth/{path:path}", methods=["POST"], operation_id="auth_service_proxy")
 async def auth_proxy(path: str, request: Request):
     return await proxy_request(f"{AUTH_SERVICE_URL}/{path}", request.method, request)
 
 # --- Product Routes ---
-@app.api_route("/products/{path:path}", methods=["GET", "POST", "PUT", "DELETE"])
-@app.api_route("/products", methods=["GET", "POST"])
+@app.api_route("/products/{path:path}", methods=["GET", "POST", "PUT", "DELETE"], operation_id="products_proxy_with_path")
+@app.api_route("/products", methods=["GET", "POST"], operation_id="products_proxy_root")
 async def products_proxy(request: Request, path: str = ""):
     url = f"{PRODUCT_SERVICE_URL}/products"
     if path:
@@ -61,25 +61,25 @@ async def products_proxy(request: Request, path: str = ""):
     return await proxy_request(url, request.method, request)
 
 # --- Cart Routes ---
-@app.api_route("/cart/{path:path}", methods=["GET", "POST", "DELETE"])
+@app.api_route("/cart/{path:path}", methods=["GET", "POST", "DELETE"], operation_id="cart_service_proxy")
 async def cart_proxy(path: str, request: Request):
     return await proxy_request(f"{CART_SERVICE_URL}/cart/{path}", request.method, request)
 
 # --- Order Routes ---
-@app.post("/orders")
+@app.post("/orders", operation_id="create_order")
 async def orders_proxy_post(request: Request):
     return await proxy_request(f"{ORDER_SERVICE_URL}/orders", request.method, request)
 
-@app.api_route("/orders/{path:path}", methods=["GET"])
+@app.api_route("/orders/{path:path}", methods=["GET"], operation_id="get_orders")
 async def orders_proxy_get(path: str, request: Request):
     return await proxy_request(f"{ORDER_SERVICE_URL}/orders/{path}", request.method, request)
 
 # --- Review Routes ---
-@app.api_route("/reviews/{path:path}", methods=["GET", "POST"])
+@app.api_route("/reviews/{path:path}", methods=["GET", "POST"], operation_id="reviews_proxy_with_path")
 async def reviews_proxy(path: str, request: Request):
     return await proxy_request(f"{REVIEW_SERVICE_URL}/reviews/{path}", request.method, request)
 
-@app.api_route("/reviews", methods=["POST"])
+@app.api_route("/reviews", methods=["POST"], operation_id="create_review")
 async def reviews_root_post(request: Request):
     return await proxy_request(f"{REVIEW_SERVICE_URL}/reviews", request.method, request)
 
